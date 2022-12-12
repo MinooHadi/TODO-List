@@ -16,18 +16,18 @@
         <a href="">Home</a>
         <a href="">Todos</a>
     </nav>
-    <form action="">
+    <form action="" onsubmit="createNewTodo()">
       <div class="title">
         <label for="">Title</label>
-        <input type="text" placeholder="What will you do today?" required />
+        <input type="text" id="title" placeholder="What will you do today?" required />
       </div>
       <div class="description">
         <label for="">Description</label>
-        <input type="text" placeholder="Some informaion" />
+        <input type="text" id="description" placeholder="Some informaion" />
       </div>
       <div class="duedate">
         <label for="">Due Date</label>
-        <input type="date" placeholder="MM/DD/YYYY" required />
+        <input type="date" id="dueDate" placeholder="MM/DD/YYYY" required />
       </div>
       <input type="submit" />
     </form>

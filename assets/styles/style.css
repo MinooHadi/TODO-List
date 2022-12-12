@@ -51,6 +51,7 @@ input[type="submit"] {
     background-color: rgb(28, 177, 28);
     color: white;
     padding: 10px;
+    display: none;
 }
 
 .toast div {
