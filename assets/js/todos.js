@@ -1,5 +1,3 @@
-// let data = localStorage.getItem("todoList");
-// data = JSON.parse(data);
 const BASE_URL = "https://60b77f8f17d1dc0017b8a2c4.mockapi.io";
 
 async function createTodos() {
@@ -17,6 +15,11 @@ async function createTodos() {
     let deleteIcons = document.getElementsByClassName("deleteIcon");
     for (let deleteIcon of deleteIcons) {
       deleteIcon.addEventListener("click", showDeleteModal);
+    }
+
+    let editIcons = document.getElementsByClassName("editIcon");
+    for(let editIcon of editIcons){
+        editIcon.addEventListener("click", editTodo)
     }
 
     return data;
@@ -154,4 +157,9 @@ function paginator(data) {
     // redirect 404 page
   }
   return data.splice((page - 1) * 5, 5);
+}
+
+function editTodo(e) {
+    let id = e.target.getAttribute("data-id");
+    window.location.replace(`home.html?id=${id}`);
 }
