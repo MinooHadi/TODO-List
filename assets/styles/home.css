@@ -9,6 +9,7 @@ nav{
     display: flex;
     gap: 50px;
     border: 1px solid black;
+    margin-bottom: 50px;
 }
 
 a {
@@ -23,7 +24,6 @@ form {
     gap: 50px;
     width: fit-content;
     margin: auto;
-    margin-top: 50px;
 }
 
 form div {
@@ -32,7 +32,7 @@ form div {
     gap: 5px;
 }
 
-input {
+form input {
     width: 500px;
     padding: 5px 0;
 }
@@ -58,4 +58,7 @@ input[type="submit"] {
     display: flex;
     justify-content: space-between;
 }
+
+
+
 

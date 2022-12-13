@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Home</title>
-    <link rel="stylesheet" href="assets/styles/style.css" />
+    <link rel="stylesheet" href="assets/styles/home.css" />
     <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
@@ -13,13 +13,18 @@
   </head>
   <body>
     <nav>
-        <a href="">Home</a>
-        <a href="">Todos</a>
+      <a href="#">Home</a>
+      <a href="todos.html">Todos</a>
     </nav>
     <form action="" onsubmit="createNewTodo()">
       <div class="title">
         <label for="">Title</label>
-        <input type="text" id="title" placeholder="What will you do today?" required />
+        <input
+          type="text"
+          id="title"
+          placeholder="What will you do today?"
+          required
+        />
       </div>
       <div class="description">
         <label for="">Description</label>
@@ -39,6 +44,6 @@
       </div>
       <p>The todo successfuly submited</p>
     </div>
-    <script src="assets/js/script.js"></script>
+    <script src="assets/js/home.js"></script>
   </body>
 </html>
