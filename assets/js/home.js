@@ -94,9 +94,7 @@ async function edit() {
     title: title.value,
     description: description.value,
     dueDate: dueDate.value,
-    createdAt: ts,
     updatedAt: ts,
-    checked: false,
   };
   try {
     const response = await fetch(`${BASE_URL}/todos/${todoId}`, {
@@ -107,9 +105,11 @@ async function edit() {
       },
       body: JSON.stringify(newTodo),
     });
-    if (response.status === 200) {
-      const createTodo = await response.json();
-      console.log(createTodo);
+    if (response.status === 404) {
+      window.location.href = "error.html";
+    } else if (response.status === 200) {
+      const editTodo = await response.json();
+      console.log(editTodo);
 
       document.getElementsByTagName("form")[0].reset();
 

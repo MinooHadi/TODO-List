@@ -18,8 +18,8 @@ async function createTodos() {
     }
 
     let editIcons = document.getElementsByClassName("editIcon");
-    for(let editIcon of editIcons){
-        editIcon.addEventListener("click", editTodo)
+    for (let editIcon of editIcons) {
+      editIcon.addEventListener("click", editTodo);
     }
 
     return data;
@@ -44,6 +44,10 @@ function addToDOM(data) {
 
     let input = document.createElement("input");
     input.type = "checkbox";
+    input.checked = item.checked;
+    input.addEventListener("click", function () {
+      checked(item.id, this.checked);
+    });
 
     let label = document.createElement("label");
     label.style.fontSize = "20px";
@@ -154,12 +158,24 @@ function paginator(data) {
   if (!page) {
     page = 1;
   } else if (page > pageCount) {
-    // redirect 404 page
+    window.location.href = "error.html";
   }
   return data.splice((page - 1) * 5, 5);
 }
 
 function editTodo(e) {
-    let id = e.target.getAttribute("data-id");
-    window.location.replace(`home.html?id=${id}`);
+  let id = e.target.getAttribute("data-id");
+  window.location.replace(`home.html?id=${id}`);
+}
+
+function checked(id, value) {
+  fetch(`${BASE_URL}/todos/${id}`, {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+      Accept: "application/json",
+    },
+    body: JSON.stringify({checked: value, updatedAt: Date.now()}),
+  });
+  console.log(value);
 }
