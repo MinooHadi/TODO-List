@@ -93,3 +93,22 @@ button {
 .hide {
     display: none;
 }
+
+.pageDiv {
+    display: flex;
+    width: fit-content;
+    margin: auto;
+}
+
+.pageNumber {
+    border: 1px solid black;
+    padding: 3px;
+}
+
+.pageDiv .pageNumber:first-child {
+    border-radius: 9px 0 0 9px;
+}
+
+.pageDiv .pageNumber:last-child {
+    border-radius: 0 9px 9px 0;
+}

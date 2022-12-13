@@ -12,7 +12,7 @@ async function createTodos() {
       },
     });
     const data = await response.json();
-    addToDOM(data);
+    addToDOM(paginator(data));
 
     let deleteIcons = document.getElementsByClassName("deleteIcon");
     for (let deleteIcon of deleteIcons) {
@@ -28,8 +28,7 @@ async function createTodos() {
 createTodos();
 
 function addToDOM(data) {
-    let container = document.querySelector(".container");
-    console.log(container);
+  let container = document.querySelector(".container");
   for (let item of data) {
     let todoDiv = document.createElement("div");
     todoDiv.classList.add("todoDiv");
@@ -111,8 +110,11 @@ function hideDeleteModal() {
 }
 
 function resetTodo() {
-    let container = document.querySelector(".container");
-    container.innerHTML = "";
+  let container = document.querySelector(".container");
+  container.innerHTML = "";
+
+  let page = document.querySelector(".page");
+  page.innerHTML = "";
 }
 
 async function deleteTodo() {
@@ -130,3 +132,26 @@ async function deleteTodo() {
   }
 }
 
+function paginator(data) {
+  const pageCount = Math.ceil(data.length / 5);
+  const params = new URLSearchParams(window.location.search);
+  let page = params.get("page");
+  let pageDiv = document.querySelector(".page");
+  pageDiv.classList.add("pageDiv");
+  for (let i = 1; i <= pageCount; i++) {
+    let pageNumber = document.createElement("div");
+    pageNumber.innerText = i;
+    pageNumber.classList.add("pageNumber");
+    pageDiv.append(pageNumber);
+    pageNumber.addEventListener("click", function () {
+      params.set("page", i);
+      window.location.search = params.toString();
+    });
+  }
+  if (!page) {
+    page = 1;
+  } else if (page > pageCount) {
+    // redirect 404 page
+  }
+  return data.splice((page - 1) * 5, 5);
+}
