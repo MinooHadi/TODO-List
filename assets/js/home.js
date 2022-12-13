@@ -1,11 +1,11 @@
 const BASE_URL = "https://60b77f8f17d1dc0017b8a2c4.mockapi.io";
 
-let todoList = localStorage.getItem("todoList");
-if (todoList) {
-  todoList = JSON.parse(todoList);
-} else {
-  todoList = [];
-}
+// let todoList = localStorage.getItem("todoList");
+// if (todoList) {
+//   todoList = JSON.parse(todoList);
+// } else {
+//   todoList = [];
+// }
 
 // create
 async function createNewTodo() {
@@ -37,9 +37,9 @@ async function createNewTodo() {
       console.log(createTodo);
 
       //localstorage
-      console.log(todoList);
-      todoList.push(createTodo);
-      localStorage.setItem("todoList", JSON.stringify(todoList));
+      // console.log(todoList);
+      // todoList.push(createTodo);
+      // localStorage.setItem("todoList", JSON.stringify(todoList));
 
       document.getElementsByTagName("form")[0].reset();
 
@@ -55,6 +55,3 @@ async function createNewTodo() {
     console.log(error);
   }
 }
-
-
-
