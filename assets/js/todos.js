@@ -16,7 +16,7 @@ async function createTodos() {
 
     let deleteIcons = document.getElementsByClassName("deleteIcon");
     for (let deleteIcon of deleteIcons) {
-      deleteIcon.addEventListener("click", deleteTodo);
+      deleteIcon.addEventListener("click", showDeleteModal);
     }
 
     return data;
@@ -28,6 +28,8 @@ async function createTodos() {
 createTodos();
 
 function addToDOM(data) {
+    let container = document.querySelector(".container");
+    console.log(container);
   for (let item of data) {
     let todoDiv = document.createElement("div");
     todoDiv.classList.add("todoDiv");
@@ -55,9 +57,15 @@ function addToDOM(data) {
 
     let editIcon = document.createElement("i");
     editIcon.classList.add("fa", "fa-pencil", "editIcon");
+    editIcon.setAttribute("data-id", item.id);
+    editIcon.setAttribute("data-title", item.title);
+    editIcon.setAttribute("data-dueDate", item.dueDate);
 
     let deleteIcon = document.createElement("i");
     deleteIcon.classList.add("fa", "fa-trash", "deleteIcon");
+    deleteIcon.setAttribute("data-id", item.id);
+    deleteIcon.setAttribute("data-title", item.title);
+    deleteIcon.setAttribute("data-dueDate", item.dueDate);
 
     let pDescription = document.createElement("p");
     pDescription.style.fontSize = "13px";
@@ -76,68 +84,49 @@ function addToDOM(data) {
     todoDiv.append(todoTop);
     todoDiv.append(pDescription);
 
-    document.body.append(todoDiv);
+    container.append(todoDiv);
   }
 }
 
-function deleteTodo() {
-  let deletTodo = document.createElement("div");
-  deletTodo.classList.add("deleteTodo");
+let selectedId;
 
-  let deleteTop = document.createElement("div");
-  deleteTop.classList.add("deleteTop");
+function showDeleteModal(e) {
+  let deleteTodo = document.getElementsByClassName("deleteTodo")[0];
+  deleteTodo.classList.replace("hide", "show");
 
-  let icon = document.createElement("i");
-  icon.classList.add("fa", "fa-exclamation-triangle");
-  icon.style.color = "red";
+  let dueDate = document.getElementById("duedate");
+  dueDate.innerText = e.target.getAttribute("data-dueDate");
 
-  let deletLabel = document.createElement("h3");
-  deletLabel.innerText = "Delete";
+  let title = document.getElementById("title");
+  title.innerText = e.target.getAttribute("data-title");
 
-  let hr1 = document.createElement("hr");
+  selectedId = e.target.getAttribute("data-id");
+}
 
-  let deleteCenter = document.createElement("div");
-  deleteCenter.classList.add("deleteCenter");
+function hideDeleteModal() {
+  let deleteTodo = document.getElementsByClassName("deleteTodo")[0];
+  deleteTodo.classList.replace("show", "hide");
 
-  let pDelete = document.createElement("p");
-  pDelete.innerText = "Do you want to delete this item?";
+  selectedId = null;
+}
 
-  let deleteCenter2 = document.createElement("div");
-  deleteCenter2.classList.add("deleteCenter2");
+function resetTodo() {
+    let container = document.querySelector(".container");
+    container.innerHTML = "";
+}
 
-  let h3 = document.createElement("h3");
-  h3.innerText = "test";
-
-  let h6 = document.createElement("h6");
-  h6.innerText = "22.22.2222";
-
-  let hr2 = document.createElement("hr");
-
-  let deleteBottom = document.createElement("div");
-  deleteBottom.classList.add("deleteBottom");
-
-  let deleteBtn = document.createElement("button");
-  deleteBtn.innerText = "Delete";
-  deleteBtn.style.width = "45%";
-
-  let cancelBtn = document.createElement("button");
-  cancelBtn.innerText = "Cancel";
-  cancelBtn.style.width = "45%";
-
-  deleteTop.append(icon);
-  deleteTop.append(deletLabel);
-
-  deleteCenter2.append(h3);
-  deleteCenter2.append(h6);
-
-  deleteCenter.append(pDelete);
-  deleteCenter.append(deleteCenter2);
-
-  deleteBottom.append(deleteBtn);
-  deleteBottom.append(cancelBtn);
-
-  deletTodo.append(deleteTop, hr1, deleteCenter, hr2, deleteBottom);
-
-  document.body.append(deletTodo);
+async function deleteTodo() {
+  try {
+    if (selectedId) {
+      const response = await fetch(`${BASE_URL}/todos/${selectedId}`, {
+        method: "DELETE",
+      });
+      hideDeleteModal();
+      resetTodo();
+      createTodos();
+    }
+  } catch (error) {
+    console.log(error);
+  }
 }
 

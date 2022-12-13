@@ -49,7 +49,7 @@ a {
     border: 1px solid black;
     background-color: rgb(208, 195, 195);
     position: fixed;
-    top: 200px;
+    top: 300px;
     right: 40%;
     bottom: 0;
     left: 40%;
@@ -60,6 +60,10 @@ a {
     display: flex;
     align-items: center;
     gap: 10px;
+}
+
+.deleteTop i {
+    color: red;
 }
 
 .deleteCenter {
@@ -78,6 +82,14 @@ a {
     padding-top: 10px;
 }
 
-/* button {
+button {
     width: 45%;
-} */
+}
+
+.show {
+    display: block;
+}
+
+.hide {
+    display: none;
+}
