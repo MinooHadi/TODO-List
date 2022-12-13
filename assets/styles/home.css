@@ -4,18 +4,47 @@
     padding: 0;
 }
 
-nav{
-    padding: 10px 15px;
+body {
+    background-color: rgb(255, 244, 230);
+}
+
+/* navbar */
+
+nav {
+    padding: 20px 50px;
     display: flex;
-    gap: 50px;
-    border: 1px solid black;
+    justify-content: space-between;
     margin-bottom: 50px;
+    border-bottom: 5px solid rgb(193, 163, 163);
+    background-color: rgb(221, 190, 190);
+    border-radius: 0 0 5px 5px;
+    box-shadow: 5px 5px 5px rgb(221, 190, 190);
+    align-items: center;
+}
+
+.links {
+    display: flex;
+    gap: 60px;
+}
+
+nav p {
+    font-size: 25px;
+    font-weight: 700;
+    color: rgb(183, 103, 103);
+    text-shadow: 5px 5px rgb(193, 163, 163);
 }
 
 a {
     text-decoration: none;
-    color: rgb(0, 101, 241);
+    color: rgb(183, 103, 103);
+    font-weight: 300;
 }
+
+a:hover {
+    color: rgb(138, 63, 63);
+}
+
+/* form */
 
 form {
     display: flex;
@@ -34,7 +63,8 @@ form div {
 
 form input {
     width: 500px;
-    padding: 5px 0;
+    padding: 10px 5px;
+    border-radius: 10px;
 }
 
 input[type="submit"] {

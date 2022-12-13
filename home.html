@@ -12,10 +12,16 @@
     />
   </head>
   <body>
+    <!-- navbar -->
     <nav>
-      <a href="#">Home</a>
-      <a href="todos.html">Todos</a>
+      <p>My TODO list</p>
+      <div class="links">
+        <a href="#">Home</a>
+        <a href="todos.html">Todos</a>
+      </div>
     </nav>
+
+    <!-- form -->
     <form action="" onsubmit="createNewTodo()">
       <div class="title">
         <label for="">Title</label>
@@ -34,9 +40,10 @@
         <label for="">Due Date</label>
         <input type="date" id="dueDate" placeholder="MM/DD/YYYY" required />
       </div>
-      <input type="submit" id="btn"/>
+      <input type="submit" id="btn" />
     </form>
 
+    <!-- create new todo toast -->
     <div class="toast-create">
       <div class>
         <h3>Successful</h3>
@@ -45,6 +52,7 @@
       <p>The todo successfuly submited</p>
     </div>
 
+    <!-- edit new todo toast -->
     <div class="toast-edit">
       <div class>
         <h3>Successful</h3>
@@ -52,6 +60,7 @@
       </div>
       <p>The todo successfuly edited</p>
     </div>
-    <script src="assets/js/home.js"></script>
+
+    <!-- <script src="assets/js/home.js"></script> -->
   </body>
 </html>
