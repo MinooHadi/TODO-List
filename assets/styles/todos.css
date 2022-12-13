@@ -4,31 +4,79 @@
     padding: 0;
 }
 
-nav{
-    padding: 10px 15px;
+body {
+    background-color: rgb(255, 244, 230);
+}
+
+
+/* navbar */
+
+nav {
+    padding: 20px 50px;
     display: flex;
-    gap: 50px;
-    border: 1px solid black;
+    justify-content: space-between;
     margin-bottom: 50px;
+    border-bottom: 5px solid rgb(193, 163, 163);
+    background-color: rgb(221, 190, 190);
+    border-radius: 0 0 5px 5px;
+    box-shadow: 5px 5px 5px rgb(221, 190, 190);
+    align-items: center;
+}
+
+.links {
+    display: flex;
+    gap: 60px;
+}
+
+nav p {
+    font-size: 25px;
+    font-weight: 700;
+    color: rgb(183, 103, 103);
+    text-shadow: 5px 5px rgb(193, 163, 163);
 }
 
 a {
     text-decoration: none;
-    color: rgb(0, 101, 241);
+    color: rgb(183, 103, 103);
+    font-weight: 300;
 }
+
+a:hover {
+    color: rgb(138, 63, 63);
+}
+
+
+/* todos */
 
 .todoDiv {
   width: 500px;
-  border: 1px solid black;
+  border: 5px solid rgb(193, 163, 163);
+  background-color: rgb(245, 220, 220);
+  border-radius: 20px 0 0 0;
   margin: auto;
-  padding: 10px;
+  padding: 15px;
   margin-bottom: 20px;
+}
+
+.todoDiv label {
+    color: rgb(183, 103, 103);
+    font-size: 25px;
+}
+
+.todoDiv p {
+    color: rgb(145, 133, 133);
+    font-size: 18px;
 }
 
 .checkTodo {
   display: flex;
-  gap: 20px;
+  gap: 10px;
   align-items: center;
+}
+
+.checkTodo p {
+    color: rgb(145, 133, 133);
+    font-size: 15px;
 }
 
 .todoTop {
@@ -38,10 +86,29 @@ a {
   align-items: center;
 }
 
+.todoTop input {
+    width: 20px;
+    height: 20px;
+}
+
 .edit-delete {
   display: flex;
   gap: 20px;
 }
+
+.edit-delete i {
+    font-size: 20px;
+}
+
+.editIcon {
+    color: green;
+}
+
+.deleteIcon {
+    color: red;
+}
+
+/* delete modal */
 
 .deleteTodo {
     width: 20%;

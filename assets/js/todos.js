@@ -50,12 +50,9 @@ function addToDOM(data) {
     });
 
     let label = document.createElement("label");
-    label.style.fontSize = "20px";
     label.innerText = item.title;
 
     let pDate = document.createElement("p");
-    pDate.style.fontSize = "13px";
-    pDate.style.color = "grey";
     pDate.innerText = item.dueDate;
 
     let editDelete = document.createElement("div");
@@ -74,7 +71,6 @@ function addToDOM(data) {
     deleteIcon.setAttribute("data-dueDate", item.dueDate);
 
     let pDescription = document.createElement("p");
-    pDescription.style.fontSize = "13px";
     pDescription.innerText = item.description;
 
     checkTodo.append(input);
