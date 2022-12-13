@@ -94,6 +94,9 @@ let selectedId;
 
 function showDeleteModal(e) {
   let deleteTodo = document.getElementsByClassName("deleteTodo")[0];
+
+  let container = document.getElementsByClassName("container")[0];
+  container.classList.add("blur")
   deleteTodo.classList.replace("hide", "show");
 
   let dueDate = document.getElementById("duedate");
@@ -108,6 +111,9 @@ function showDeleteModal(e) {
 function hideDeleteModal() {
   let deleteTodo = document.getElementsByClassName("deleteTodo")[0];
   deleteTodo.classList.replace("show", "hide");
+
+  let container = document.getElementsByClassName("container")[0];
+  container.classList.remove("blur")
 
   selectedId = null;
 }

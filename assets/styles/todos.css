@@ -1,50 +1,48 @@
 * {
-    font-family: Arial, Helvetica, sans-serif;
-    margin: 0;
-    padding: 0;
+  font-family: Arial, Helvetica, sans-serif;
+  margin: 0;
+  padding: 0;
 }
 
 body {
-    background-color: rgb(255, 244, 230);
+  background-color: rgb(255, 244, 230);
 }
-
 
 /* navbar */
 
 nav {
-    padding: 20px 50px;
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 50px;
-    border-bottom: 5px solid rgb(193, 163, 163);
-    background-color: rgb(221, 190, 190);
-    border-radius: 0 0 5px 5px;
-    box-shadow: 5px 5px 5px rgb(221, 190, 190);
-    align-items: center;
+  padding: 20px 50px;
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 50px;
+  border-bottom: 5px solid rgb(193, 163, 163);
+  background-color: rgb(221, 190, 190);
+  border-radius: 0 0 5px 5px;
+  box-shadow: 5px 5px 5px rgb(221, 190, 190);
+  align-items: center;
 }
 
 .links {
-    display: flex;
-    gap: 60px;
+  display: flex;
+  gap: 60px;
 }
 
 nav p {
-    font-size: 25px;
-    font-weight: 700;
-    color: rgb(183, 103, 103);
-    text-shadow: 5px 5px rgb(193, 163, 163);
+  font-size: 25px;
+  font-weight: 700;
+  color: rgb(183, 103, 103);
+  text-shadow: 5px 5px rgb(193, 163, 163);
 }
 
 a {
-    text-decoration: none;
-    color: rgb(183, 103, 103);
-    font-weight: 300;
+  text-decoration: none;
+  color: rgb(183, 103, 103);
+  font-weight: 300;
 }
 
 a:hover {
-    color: rgb(138, 63, 63);
+  color: rgb(138, 63, 63);
 }
-
 
 /* todos */
 
@@ -59,13 +57,13 @@ a:hover {
 }
 
 .todoDiv label {
-    color: rgb(183, 103, 103);
-    font-size: 25px;
+  color: rgb(183, 103, 103);
+  font-size: 25px;
 }
 
 .todoDiv p {
-    color: rgb(145, 133, 133);
-    font-size: 18px;
+  color: rgb(145, 133, 133);
+  font-size: 18px;
 }
 
 .checkTodo {
@@ -75,8 +73,8 @@ a:hover {
 }
 
 .checkTodo p {
-    color: rgb(145, 133, 133);
-    font-size: 15px;
+  color: rgb(145, 133, 133);
+  font-size: 15px;
 }
 
 .todoTop {
@@ -87,8 +85,8 @@ a:hover {
 }
 
 .todoTop input {
-    width: 20px;
-    height: 20px;
+  width: 20px;
+  height: 20px;
 }
 
 .edit-delete {
@@ -97,85 +95,116 @@ a:hover {
 }
 
 .edit-delete i {
-    font-size: 20px;
+  font-size: 20px;
 }
 
 .editIcon {
-    color: green;
+  color: green;
 }
 
 .deleteIcon {
-    color: red;
+  color: red;
 }
 
 /* delete modal */
 
 .deleteTodo {
-    width: 20%;
-    height: fit-content;
-    border: 1px solid black;
-    background-color: rgb(208, 195, 195);
-    position: fixed;
-    top: 300px;
-    right: 40%;
-    bottom: 0;
-    left: 40%;
-    padding: 10px;
+  width: 30%;
+  height: fit-content;
+  border: 2px solid rgb(172, 137, 137);
+  background-color: rgb(208, 173, 173);
+  box-shadow: 5px 10px 5px rgb(162, 128, 128);
+  border-radius: 10px;
+  position: fixed;
+  top: 320px;
+  right: 35%;
+  bottom: 0;
+  left: 35%;
+  padding: 10px;
 }
 
 .deleteTop {
-    display: flex;
-    align-items: center;
-    gap: 10px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.deleteTop h3 {
+  color: red;
 }
 
 .deleteTop i {
-    color: red;
+  color: red;
+  font-size: 20px;
 }
 
 .deleteCenter {
-    padding: 10px 0;
+  padding: 10px 0;
+}
+
+.deleteCenter p {
+  font-size: 15px;
+  color: rgb(255, 238, 238);
 }
 
 .deleteCenter2 {
-    display: flex;
-    align-items: center;
-    gap: 20px;
-    padding-top: 10px;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  padding-top: 10px;
+  color: rgb(96, 8, 8);
 }
 
 .deleteBottom {
-    text-align: center;
-    padding-top: 10px;
+  display: flex;
+  padding-top: 10px;
+  justify-content: space-around;
 }
 
 button {
-    width: 45%;
+  width: 40%;
+  padding: 5px;
+  border-radius: 3px;
+  background-color: rgb(208, 173, 173);
+  border: 2px solid rgb(172, 137, 137);
+  color: rgb(255, 238, 238);
+}
+
+.delete-btn:hover, .cancel-btn:hover {
+  background-color: rgb(207, 25, 25);
+  border: 2px solid rgb(176, 20, 20);
 }
 
 .show {
-    display: block;
+  display: block;
 }
 
 .hide {
-    display: none;
+  display: none;
 }
 
+.blur {
+  filter: blur(3px);
+}
+
+/* pages */
+
 .pageDiv {
-    display: flex;
-    width: fit-content;
-    margin: auto;
+  display: flex;
+  width: fit-content;
+  margin: auto;
 }
 
 .pageNumber {
-    border: 1px solid black;
-    padding: 3px;
+  border: 1px solid black;
+  padding: 3px;
 }
 
 .pageDiv .pageNumber:first-child {
-    border-radius: 9px 0 0 9px;
+  border-radius: 9px 0 0 9px;
 }
 
 .pageDiv .pageNumber:last-child {
-    border-radius: 0 9px 9px 0;
+  border-radius: 0 9px 9px 0;
 }
