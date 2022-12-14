@@ -1,5 +1,6 @@
 const BASE_URL = "https://60b77f8f17d1dc0017b8a2c4.mockapi.io";
 
+// create todos
 async function createTodos() {
   try {
     const response = await fetch(`${BASE_URL}/todos`, {
@@ -12,12 +13,12 @@ async function createTodos() {
     const data = await response.json();
     addToDOM(paginator(data));
 
-    let deleteIcons = document.getElementsByClassName("deleteIcon");
+    let deleteIcons = document.querySelectorAll(".deleteIcon");
     for (let deleteIcon of deleteIcons) {
       deleteIcon.addEventListener("click", showDeleteModal);
     }
 
-    let editIcons = document.getElementsByClassName("editIcon");
+    let editIcons = document.querySelectorAll(".editIcon");
     for (let editIcon of editIcons) {
       editIcon.addEventListener("click", editTodo);
     }
@@ -27,9 +28,9 @@ async function createTodos() {
     console.log(error);
   }
 }
-
 createTodos();
 
+// add todos to todos page
 function addToDOM(data) {
   let container = document.querySelector(".container");
   for (let item of data) {
@@ -92,32 +93,35 @@ function addToDOM(data) {
 
 let selectedId;
 
+// show delete modal
 function showDeleteModal(e) {
-  let deleteTodo = document.getElementsByClassName("deleteTodo")[0];
+  let deleteTodo = document.querySelector(".deleteTodo");
 
-  let container = document.getElementsByClassName("container")[0];
+  let container = document.querySelector(".container");
   container.classList.add("blur");
   deleteTodo.classList.replace("hide", "show");
 
-  let dueDate = document.getElementById("duedate");
+  let dueDate = document.querySelector("#duedate");
   dueDate.innerText = e.target.getAttribute("data-dueDate");
 
-  let title = document.getElementById("title");
+  let title = document.querySelector("#title");
   title.innerText = e.target.getAttribute("data-title");
 
   selectedId = e.target.getAttribute("data-id");
 }
 
+// hide delete modal
 function hideDeleteModal() {
-  let deleteTodo = document.getElementsByClassName("deleteTodo")[0];
+  let deleteTodo = document.querySelector(".deleteTodo");
   deleteTodo.classList.replace("show", "hide");
 
-  let container = document.getElementsByClassName("container")[0];
+  let container = document.querySelector(".container");
   container.classList.remove("blur");
 
   selectedId = null;
 }
 
+// reset todos page
 function resetTodo() {
   let container = document.querySelector(".container");
   container.innerHTML = "";
@@ -130,28 +134,26 @@ function resetTodo() {
   pageDiv.innerHTML = "";
 }
 
+// delete todo
 async function deleteTodo() {
   try {
     if (selectedId) {
-      const response = await fetch(`${BASE_URL}/todos/${selectedId}`, {
+      await fetch(`${BASE_URL}/todos/${selectedId}`, {
         method: "DELETE",
       });
       hideDeleteModal();
       checkPage();
-
       resetTodo();
       createTodos();
     }
-
-
   } catch (error) {
     console.log(error);
   }
 }
 
+// check page for change to page-1
 function checkPage() {
-  let container = document.getElementsByClassName("container")[0];
-  alert(container.children.length);
+  let container = document.querySelector(".container");
   if (container.children.length === 1) {
     let params = new URLSearchParams(window.location.search);
     let page = params.get("page");
@@ -163,6 +165,7 @@ function checkPage() {
   }
 }
 
+// create pagination
 function paginator(data) {
   const pageCount = Math.ceil(data.length / 5);
   const params = new URLSearchParams(window.location.search);
@@ -208,11 +211,13 @@ function paginator(data) {
   return data.splice((page - 1) * 5, 5);
 }
 
+// edit todo
 function editTodo(e) {
   let id = e.target.getAttribute("data-id");
   window.location.replace(`home.html?id=${id}`);
 }
 
+// checked todo's checkbox
 function checked(id, value) {
   fetch(`${BASE_URL}/todos/${id}`, {
     method: "PUT",
