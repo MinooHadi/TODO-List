@@ -11,6 +11,7 @@ async function createTodos() {
       },
     });
     const data = await response.json();
+    
     addToDOM(paginator(data));
 
     let deleteIcons = document.querySelectorAll(".deleteIcon");

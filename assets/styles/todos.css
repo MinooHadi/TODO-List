@@ -193,7 +193,7 @@ button {
 
 .pageDiv {
   display: flex;
-  width: 120px;
+  max-width: 120px;
   margin: auto;
   overflow-x: scroll;
 }
