@@ -145,23 +145,47 @@ function paginator(data) {
   const pageCount = Math.ceil(data.length / 5);
   const params = new URLSearchParams(window.location.search);
   let page = params.get("page");
-  let pageDiv = document.querySelector(".page");
-  pageDiv.classList.add("pageDiv");
-  for (let i = 1; i <= pageCount; i++) {
-    let pageNumber = document.createElement("div");
-    pageNumber.innerText = i;
-    pageNumber.classList.add("pageNumber");
-    pageDiv.append(pageNumber);
-    pageNumber.addEventListener("click", function () {
-      params.set("page", i);
-      window.location.search = params.toString();
-    });
-  }
+  let pageDiv = document.querySelector(".pageDiv");
   if (!page) {
     page = 1;
   } else if (page > pageCount) {
     window.location.href = "error.html";
   }
+
+  let previous = document.createElement("i");
+  previous.classList.add("fa", "fa-chevron-left", "scrollIcon");
+  previous.addEventListener("click", function() {
+    pageDiv.scrollLeft -= 45;
+  })
+  pageDiv.insertAdjacentElement("beforebegin", previous);
+
+  for (let i = 1; i <= pageCount; i++) {
+    let pageNumber = document.createElement("div");
+    pageNumber.innerText = i;
+    pageNumber.classList.add("pageNumber");
+    
+    if(page == i) {
+      pageNumber.style.backgroundColor = "rgb(183, 103, 103)";
+      pageNumber.style.color = "white"
+    }
+
+    pageDiv.append(pageNumber);
+
+    pageNumber.addEventListener("click", function () {
+      params.set("page", i);
+      window.location.search = params.toString();
+    });
+    
+  }
+  let next = document.createElement("i");
+  next.classList.add("fa", "fa-chevron-right", "scrollIcon");
+  next.addEventListener("click", function() {
+    pageDiv.scrollLeft += 45;
+  })
+  pageDiv.insertAdjacentElement("afterend", next);
+  
+
+  
   return data.splice((page - 1) * 5, 5);
 }
 

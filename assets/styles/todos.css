@@ -171,7 +171,8 @@ button {
   color: rgb(255, 238, 238);
 }
 
-.delete-btn:hover, .cancel-btn:hover {
+.delete-btn:hover,
+.cancel-btn:hover {
   background-color: rgb(207, 25, 25);
   border: 2px solid rgb(176, 20, 20);
 }
@@ -192,19 +193,38 @@ button {
 
 .pageDiv {
   display: flex;
-  width: fit-content;
+  width: 120px;
   margin: auto;
+  overflow-x: scroll;
+}
+
+::-webkit-scrollbar {
+    display: none;
 }
 
 .pageNumber {
-  border: 1px solid black;
-  padding: 3px;
-}
-
-.pageDiv .pageNumber:first-child {
-  border-radius: 9px 0 0 9px;
+  border-right: 2px solid rgb(132, 99, 99);
+  padding: 8px 15px;
 }
 
 .pageDiv .pageNumber:last-child {
-  border-radius: 0 9px 9px 0;
+  border-right: 0;
+}
+
+footer {
+  width: fit-content;
+  height: fit-content;
+  display: flex;
+  align-items: center;
+  margin: auto;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.scrollIcon{
+    color: rgb(132, 99, 99);
+}
+
+.scrollIcon:hover {
+    color: rgb(183, 103, 103);
 }
