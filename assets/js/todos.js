@@ -96,7 +96,7 @@ function showDeleteModal(e) {
   let deleteTodo = document.getElementsByClassName("deleteTodo")[0];
 
   let container = document.getElementsByClassName("container")[0];
-  container.classList.add("blur")
+  container.classList.add("blur");
   deleteTodo.classList.replace("hide", "show");
 
   let dueDate = document.getElementById("duedate");
@@ -113,7 +113,7 @@ function hideDeleteModal() {
   deleteTodo.classList.replace("show", "hide");
 
   let container = document.getElementsByClassName("container")[0];
-  container.classList.remove("blur")
+  container.classList.remove("blur");
 
   selectedId = null;
 }
@@ -122,8 +122,12 @@ function resetTodo() {
   let container = document.querySelector(".container");
   container.innerHTML = "";
 
-  let page = document.querySelector(".page");
-  page.innerHTML = "";
+  let footer = document.querySelector("footer");
+  footer.firstElementChild.remove();
+  footer.lastElementChild.remove();
+
+  let pageDiv = document.querySelector(".pageDiv");
+  pageDiv.innerHTML = "";
 }
 
 async function deleteTodo() {
@@ -133,11 +137,29 @@ async function deleteTodo() {
         method: "DELETE",
       });
       hideDeleteModal();
+      checkPage();
+
       resetTodo();
       createTodos();
     }
+
+
   } catch (error) {
     console.log(error);
+  }
+}
+
+function checkPage() {
+  let container = document.getElementsByClassName("container")[0];
+  alert(container.children.length);
+  if (container.children.length === 1) {
+    let params = new URLSearchParams(window.location.search);
+    let page = params.get("page");
+    if (page && page != 1) {
+      page -= 1;
+      params.set("page", page);
+      window.location.search = params.toString();
+    }
   }
 }
 
@@ -154,19 +176,19 @@ function paginator(data) {
 
   let previous = document.createElement("i");
   previous.classList.add("fa", "fa-chevron-left", "scrollIcon");
-  previous.addEventListener("click", function() {
+  previous.addEventListener("click", function () {
     pageDiv.scrollLeft -= 45;
-  })
+  });
   pageDiv.insertAdjacentElement("beforebegin", previous);
 
   for (let i = 1; i <= pageCount; i++) {
     let pageNumber = document.createElement("div");
     pageNumber.innerText = i;
     pageNumber.classList.add("pageNumber");
-    
-    if(page == i) {
+
+    if (page == i) {
       pageNumber.style.backgroundColor = "rgb(183, 103, 103)";
-      pageNumber.style.color = "white"
+      pageNumber.style.color = "white";
     }
 
     pageDiv.append(pageNumber);
@@ -175,17 +197,14 @@ function paginator(data) {
       params.set("page", i);
       window.location.search = params.toString();
     });
-    
   }
   let next = document.createElement("i");
   next.classList.add("fa", "fa-chevron-right", "scrollIcon");
-  next.addEventListener("click", function() {
+  next.addEventListener("click", function () {
     pageDiv.scrollLeft += 45;
-  })
+  });
   pageDiv.insertAdjacentElement("afterend", next);
-  
 
-  
   return data.splice((page - 1) * 5, 5);
 }
 
@@ -201,7 +220,7 @@ function checked(id, value) {
       "Content-Type": "application/json",
       Accept: "application/json",
     },
-    body: JSON.stringify({checked: value, updatedAt: Date.now()}),
+    body: JSON.stringify({ checked: value, updatedAt: Date.now() }),
   });
   console.log(value);
 }
