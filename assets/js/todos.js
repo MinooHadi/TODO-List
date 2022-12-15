@@ -202,13 +202,14 @@ function paginator(data) {
       window.location.search = params.toString();
     });
   }
+  pageDiv.scrollLeft += (page - 3) * 45;
+
   let next = document.createElement("i");
   next.classList.add("fa", "fa-chevron-right", "scrollIcon");
   next.addEventListener("click", function () {
     pageDiv.scrollLeft += 45;
   });
   pageDiv.insertAdjacentElement("afterend", next);
-
   return data.splice((page - 1) * 5, 5);
 }
 

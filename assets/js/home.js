@@ -38,55 +38,14 @@ async function createNewTodo() {
       close.addEventListener("click", function () {
         toast.style.display = "none";
       });
+
+      setTimeout(() => {
+        toast.style.display = "none";
+      }, 2000);
     }
   } catch (error) {
     console.log(error);
   }
-}
-
-// create save button
-function createSaveButton() {
-  let todoId = new URLSearchParams(window.location.search).get("id");
-
-  if (todoId) {
-    let submit = document.querySelector("#btn");
-    submit.style.display = "none";
-
-    let save = document.createElement("button");
-    save.innerText = "Save";
-    save.classList.add("save");
-    save.addEventListener("click", edit);
-    let form = document.querySelector("form");
-    form.append(save);
-    getDataForEdit();
-  }
-}
-createSaveButton();
-
-// get data from form for edit
-function getDataForEdit() {
-  let todoId = new URLSearchParams(window.location.search).get("id");
-
-  fetch(`${BASE_URL}/todos/${todoId}`, {
-    method: "GET",
-    headers: {
-      "Content-Type": "application/json",
-      Accept: "application/json",
-    },
-  })
-    .then((res) => {
-      return res.json();
-    })
-    .then((data) => {
-      let title = document.querySelector("#title");
-      let description = document.querySelector("#description");
-      let dueDate = document.querySelector("#dueDate");
-
-      title.value = data.title;
-      description.value = data.description;
-      dueDate.value = data.dueDate;
-    })
-    .catch((err) => console.log(err));
 }
 
 // edit todo
@@ -137,3 +96,48 @@ async function edit() {
     console.log(error);
   }
 }
+
+// get data from form for edit
+function getDataForEdit() {
+  let todoId = new URLSearchParams(window.location.search).get("id");
+
+  fetch(`${BASE_URL}/todos/${todoId}`, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+      Accept: "application/json",
+    },
+  })
+    .then((res) => {
+      return res.json();
+    })
+    .then((data) => {
+      let title = document.querySelector("#title");
+      let description = document.querySelector("#description");
+      let dueDate = document.querySelector("#dueDate");
+
+      title.value = data.title;
+      description.value = data.description;
+      dueDate.value = data.dueDate;
+    })
+    .catch((err) => console.log(err));
+}
+
+// create save button
+function createSaveButton() {
+  let todoId = new URLSearchParams(window.location.search).get("id");
+
+  if (todoId) {
+    let submit = document.querySelector("#btn");
+    submit.style.display = "none";
+
+    let save = document.createElement("button");
+    save.innerText = "Save";
+    save.classList.add("save");
+    save.addEventListener("click", edit);
+    let form = document.querySelector("form");
+    form.append(save);
+    getDataForEdit();
+  }
+}
+createSaveButton();

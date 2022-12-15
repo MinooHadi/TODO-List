@@ -70,7 +70,6 @@ form input {
 }
 
 input[type="submit"] {
-    color: white;
     border: 5px solid rgb(193, 163, 163);
     background-color: rgb(221, 190, 190);
     font-weight: 600;
@@ -107,14 +106,14 @@ form label {
 /* save button */
 
 .save {
-    color: white;
+    width: 500px;
+    padding: 10px 5px;
     border: 5px solid rgb(193, 163, 163);
     background-color: rgb(221, 190, 190);
     font-weight: 600;
     font-size: 20px;
     color: rgb(183, 103, 103);
-    width: 500px;
-    padding: 5px 0;
+    border-radius: 10px;
 }
 
 /* edit todo toast */
