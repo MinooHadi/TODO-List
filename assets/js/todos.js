@@ -1,39 +1,39 @@
-const BASE_URL = "https://60b77f8f17d1dc0017b8a2c4.mockapi.io";
+import { getTodosListReq, deleteTodoReq, checked } from "./api.js";
+import { PAGE_LIMIT, SCROLL_OFFSET } from "./constants.js";
+import { getPageNumber, hideLoading, showLoading, showToast, updatePageNumber } from "./utils.js";
 
 // create todos
 async function createTodos() {
   try {
-    const response = await fetch(`${BASE_URL}/todos`, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        Accept: "application/json",
-      },
-    });
-    const data = await response.json();
-    
+    showLoading();
+    const { data, statusCode } = await getTodosListReq();
+    hideLoading();
+    if (statusCode >= 400) {
+      return showToast("something went wrong!!!", "red");
+    }
     addToDOM(paginator(data));
 
-    let deleteIcons = document.querySelectorAll(".deleteIcon");
+    const deleteIcons = document.querySelectorAll(".deleteIcon");
     for (let deleteIcon of deleteIcons) {
       deleteIcon.addEventListener("click", showDeleteModal);
     }
 
-    let editIcons = document.querySelectorAll(".editIcon");
+    const editIcons = document.querySelectorAll(".editIcon");
     for (let editIcon of editIcons) {
       editIcon.addEventListener("click", editTodo);
     }
 
     return data;
-  } catch (error) {
-    console.log(error);
+  } catch {
+    hideLoading();
+    showToast("something went wrong!!!", "red");
   }
 }
 createTodos();
 
 // add todos to todos page
 function addToDOM(data) {
-  let container = document.querySelector(".container");
+  const container = document.querySelector(".container");
   for (let item of data) {
     let todoDiv = document.createElement("div");
     todoDiv.classList.add("todoDiv");
@@ -96,27 +96,30 @@ let selectedId;
 
 // show delete modal
 function showDeleteModal(e) {
-  let deleteTodo = document.querySelector(".deleteTodo");
+  const deleteTodo = document.querySelector(".deleteTodo");
 
-  let container = document.querySelector(".container");
+  const container = document.querySelector(".container");
   container.classList.add("blur");
   deleteTodo.classList.replace("hide", "show");
 
-  let dueDate = document.querySelector("#duedate");
+  const dueDate = document.querySelector("#duedate");
   dueDate.innerText = e.target.getAttribute("data-dueDate");
 
-  let title = document.querySelector("#title");
+  const title = document.querySelector("#title");
   title.innerText = e.target.getAttribute("data-title");
 
   selectedId = e.target.getAttribute("data-id");
 }
 
 // hide delete modal
+const cancelBtn = document.querySelector(".cancel-btn");
+cancelBtn.addEventListener("click", hideDeleteModal);
+
 function hideDeleteModal() {
-  let deleteTodo = document.querySelector(".deleteTodo");
+  const deleteTodo = document.querySelector(".deleteTodo");
   deleteTodo.classList.replace("show", "hide");
 
-  let container = document.querySelector(".container");
+  const container = document.querySelector(".container");
   container.classList.remove("blur");
 
   selectedId = null;
@@ -124,54 +127,56 @@ function hideDeleteModal() {
 
 // reset todos page
 function resetTodo() {
-  let container = document.querySelector(".container");
+  const container = document.querySelector(".container");
   container.innerHTML = "";
 
-  let footer = document.querySelector("footer");
+  const footer = document.querySelector("footer");
   footer.firstElementChild.remove();
   footer.lastElementChild.remove();
 
-  let pageDiv = document.querySelector(".pageDiv");
+  const pageDiv = document.querySelector(".pageDiv");
   pageDiv.innerHTML = "";
 }
 
 // delete todo
+const deleteBtn = document.querySelector(".delete-btn");
+deleteBtn.addEventListener("click", deleteTodo);
+
 async function deleteTodo() {
   try {
     if (selectedId) {
-      await fetch(`${BASE_URL}/todos/${selectedId}`, {
-        method: "DELETE",
-      });
+      let response = await deleteTodoReq(selectedId);
+      if (response.statusCode >= 400) {
+        return showToast("something went wrong!!!", "red");
+      }
       hideDeleteModal();
       checkPage();
       resetTodo();
       createTodos();
     }
-  } catch (error) {
-    console.log(error);
+  } catch(e) {
+    console.log(e);
+    showToast("something went wrong!!!", "red");
   }
 }
 
 // check page for change to page-1
 function checkPage() {
-  let container = document.querySelector(".container");
+  const container = document.querySelector(".container");
   if (container.children.length === 1) {
-    let params = new URLSearchParams(window.location.search);
-    let page = params.get("page");
+    let page = getPageNumber();
     if (page && page != 1) {
       page -= 1;
-      params.set("page", page);
-      window.location.search = params.toString();
+      updatePageNumber(page);
     }
   }
 }
 
 // create pagination
 function paginator(data) {
-  const pageCount = Math.ceil(data.length / 5);
-  const params = new URLSearchParams(window.location.search);
-  let page = params.get("page");
-  let pageDiv = document.querySelector(".pageDiv");
+  const pageCount = Math.ceil(data.length / PAGE_LIMIT);
+  let page = getPageNumber();
+  const pageDiv = document.querySelector(".pageDiv");
   if (!page) {
     page = 1;
   } else if (page > pageCount) {
@@ -181,7 +186,7 @@ function paginator(data) {
   let previous = document.createElement("i");
   previous.classList.add("fa", "fa-chevron-left", "scrollIcon");
   previous.addEventListener("click", function () {
-    pageDiv.scrollLeft -= 45;
+    pageDiv.scrollLeft -= SCROLL_OFFSET;
   });
   pageDiv.insertAdjacentElement("beforebegin", previous);
 
@@ -198,36 +203,22 @@ function paginator(data) {
     pageDiv.append(pageNumber);
 
     pageNumber.addEventListener("click", function () {
-      params.set("page", i);
-      window.location.search = params.toString();
+      updatePageNumber(i);
     });
   }
-  pageDiv.scrollLeft += (page - 3) * 45;
+  pageDiv.scrollLeft += (page - 3) * SCROLL_OFFSET;
 
   let next = document.createElement("i");
   next.classList.add("fa", "fa-chevron-right", "scrollIcon");
   next.addEventListener("click", function () {
-    pageDiv.scrollLeft += 45;
+    pageDiv.scrollLeft += SCROLL_OFFSET;
   });
   pageDiv.insertAdjacentElement("afterend", next);
-  return data.splice((page - 1) * 5, 5);
+  return data.splice((page - 1) * PAGE_LIMIT, PAGE_LIMIT);
 }
 
 // edit todo
 function editTodo(e) {
   let id = e.target.getAttribute("data-id");
   window.location.replace(`home.html?id=${id}`);
-}
-
-// checked todo's checkbox
-function checked(id, value) {
-  fetch(`${BASE_URL}/todos/${id}`, {
-    method: "PUT",
-    headers: {
-      "Content-Type": "application/json",
-      Accept: "application/json",
-    },
-    body: JSON.stringify({ checked: value, updatedAt: Date.now() }),
-  });
-  console.log(value);
 }

@@ -1,143 +1,116 @@
-const BASE_URL = "https://60b77f8f17d1dc0017b8a2c4.mockapi.io";
+import { getTodoReq, postTodoReq, putTodoReq } from "./api.js";
+import { getTodoId, getFormData, showToast } from "./utils.js";
 
 // create new todo with submit button
-async function createNewTodo() {
-  event.preventDefault();
-  let title = document.querySelector("#title");
-  let description = document.querySelector("#description");
-  let dueDate = document.querySelector("#dueDate");
+const form = document.querySelector("form");
+form.addEventListener("submit", createNewTodo);
 
+export async function createNewTodo() {
+  event.preventDefault();
+  const { title, description, dueDate } = getFormData();
   let timestamp = Date.now();
 
   let newTodo = {
-    title: title.value,
-    description: description.value,
-    dueDate: dueDate.value,
+    title: title,
+    description: description,
+    dueDate: dueDate,
     createdAt: timestamp,
     updatedAt: timestamp,
     checked: false,
   };
   try {
-    const response = await fetch(`${BASE_URL}/todos`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Accept: "application/json",
-      },
-      body: JSON.stringify(newTodo),
-    });
-    if (response.status === 201) {
-      const createTodo = await response.json();
-
+    let response = await postTodoReq(newTodo);
+    if (response.statusCode >= 400) {
+      showToast("something went wrong!!!", "red");
+    } else if (response.statusCode === 201) {
       document.querySelector("form").reset();
 
-      let toast = document.querySelector(".toast-create");
-      toast.style.display = "block";
-
-      let close = document.querySelector("#create");
-      close.addEventListener("click", function () {
-        toast.style.display = "none";
-      });
-
-      setTimeout(() => {
-        toast.style.display = "none";
-      }, 2000);
+      showToast("The todo successfuly submited", "green");
     }
-  } catch (error) {
-    console.log(error);
+  } catch {
+    showToast("something went wrong!!!", "red");
   }
 }
 
+// close button for create tost
+const close = document.querySelector("#create");
+const toast = document.querySelector(".toast");
+close.addEventListener("click", function () {
+  toast.style.display = "none";
+});
+
 // edit todo
 async function edit() {
-  let todoId = new URLSearchParams(window.location.search).get("id");
+  let todoId = getTodoId();
 
   event.preventDefault();
-  let title = document.querySelector("#title");
-  let description = document.querySelector("#description");
-  let dueDate = document.querySelector("#dueDate");
 
+  const { title, description, dueDate } = getFormData();
   let timestamp = Date.now();
+
   let newTodo = {
-    title: title.value,
-    description: description.value,
-    dueDate: dueDate.value,
+    title: title,
+    description: description,
+    dueDate: dueDate,
     updatedAt: timestamp,
   };
   try {
-    const response = await fetch(`${BASE_URL}/todos/${todoId}`, {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-        Accept: "application/json",
-      },
-      body: JSON.stringify(newTodo),
-    });
-    if (response.status === 404) {
+    let response = await putTodoReq(todoId, newTodo);
+    if (response.statusCode === 404) {
       window.location.href = "error.html";
-    } else if (response.status === 200) {
-      const editTodo = await response.json();
-
+    } else if (response.statusCode === 200) {
       document.querySelector("form").reset();
 
-      let toast = document.querySelector(".toast-edit");
-      toast.style.display = "block";
-
-      let close = document.querySelector("#edit");
-      close.addEventListener("click", function () {
-        toast.style.display = "none";
-      });
+      showToast("The todo successfuly edited", "green");
 
       setTimeout(() => {
         window.location.href = "home.html";
       }, 2000);
+    } else {
+      showToast("something went wrong!!!", "red");
     }
-  } catch (error) {
-    console.log(error);
+  } catch (e) {
+    showToast("something went wrong!!!", "red");
+    console.log(e);
   }
 }
 
-// get data from form for edit
-function getDataForEdit() {
-  let todoId = new URLSearchParams(window.location.search).get("id");
+// get form data for edit
+function fetchById() {
+  let todoId = getTodoId();
 
-  fetch(`${BASE_URL}/todos/${todoId}`, {
-    method: "GET",
-    headers: {
-      "Content-Type": "application/json",
-      Accept: "application/json",
-    },
-  })
-    .then((res) => {
-      return res.json();
-    })
-    .then((data) => {
-      let title = document.querySelector("#title");
-      let description = document.querySelector("#description");
-      let dueDate = document.querySelector("#dueDate");
+  getTodoReq(todoId)
+    .then((response) => {
+      const { data, statusCode } = response;
+      if (statusCode >= 400) {
+        return showToast("something went wrong!!!", "red");
+      }
+      const title = document.querySelector("#title");
+      const description = document.querySelector("#description");
+      const dueDate = document.querySelector("#dueDate");
 
       title.value = data.title;
       description.value = data.description;
       dueDate.value = data.dueDate;
     })
-    .catch((err) => console.log(err));
+    .catch(() => showToast("something went wrong!!!", "red"));
 }
 
 // create save button
 function createSaveButton() {
-  let todoId = new URLSearchParams(window.location.search).get("id");
+  let todoId = getTodoId();
 
   if (todoId) {
-    let submit = document.querySelector("#btn");
+    const submit = document.querySelector("#btn");
     submit.style.display = "none";
 
     let save = document.createElement("button");
     save.innerText = "Save";
     save.classList.add("save");
     save.addEventListener("click", edit);
-    let form = document.querySelector("form");
+    const form = document.querySelector("form");
     form.append(save);
-    getDataForEdit();
+    fetchById();
   }
 }
 createSaveButton();

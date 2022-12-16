@@ -17,7 +17,7 @@
       <p>My TODO list</p>
       <div class="links">
         <a href="home.html">Home</a>
-        <a href="#">Todos</a>
+        <a href="">Todos</a>
       </div>
     </nav>
 
@@ -41,8 +41,8 @@
       </div>
       <hr />
       <div class="deleteBottom">
-        <button class="delete-btn" onclick="deleteTodo()">Delete</button>
-        <button class="cancel-btn" onclick="hideDeleteModal()">Cancel</button>
+        <button class="delete-btn">Delete</button>
+        <button class="cancel-btn">Cancel</button>
       </div>
     </div>
 
@@ -50,6 +50,19 @@
     <footer>
       <div class="pageDiv"></div>
     </footer>
-    <script src="assets/js/todos.js"></script>
+
+    <!-- create new todo toast -->
+    <div class="toast">
+      <div>
+        <h3></h3>
+        <i class="fa fa-times-circle-o" id="create"></i>
+      </div>
+      <p id="toastMsg"></p>
+    </div>
+
+    <div class="loading"> 
+      <div class="spinner"></div>
+    </div>
+    <script src="assets/js/todos.js" type="module"></script>
   </body>
 </html>
