@@ -115,25 +115,34 @@ form label {
     border-radius: 10px;
 }
 
-/* edit todo toast */
+/* loading */
 
-/* .toast-edit {
+.loading {
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
     position: absolute;
-    bottom: 30px;
-    left: 30px;
-    width: 250px;
-    background-color: rgb(30, 206, 30);
-    color: white;
-    padding: 20px 20px;
-    line-height: 50px;
-    border-radius: 10px;
+    top: 0;
+    left: 0;
     display: none;
-}
-
-.toast-edit div {
-    display: flex;
-    justify-content: space-between;
-} */
+  }
+  
+  .spinner {
+    width: 40px;
+    height: 40px;
+    border: 5px dashed rgb(200, 200, 210);
+    border-radius: 50%;
+    position: absolute;
+    top: calc(50% - 20px);
+    left: calc(50% - 20px);
+    animation: load 2s infinite;
+  }
+  
+  @keyframes load {
+    100% {
+      transform: rotate(360deg);
+    }
+  }
 
 
 

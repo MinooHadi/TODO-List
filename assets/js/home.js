@@ -1,5 +1,5 @@
 import { getTodoReq, postTodoReq, putTodoReq } from "./api.js";
-import { getTodoId, getFormData, showToast } from "./utils.js";
+import { getTodoId, getFormData, showToast, showLoading, hideLoading } from "./utils.js";
 
 // create new todo with submit button
 const form = document.querySelector("form");
@@ -55,7 +55,9 @@ async function edit() {
     updatedAt: timestamp,
   };
   try {
+    showLoading();
     let response = await putTodoReq(todoId, newTodo);
+    hideLoading();
     if (response.statusCode === 404) {
       window.location.href = "error.html";
     } else if (response.statusCode === 200) {
